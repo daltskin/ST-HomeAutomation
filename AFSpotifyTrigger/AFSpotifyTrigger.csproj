@@ -1,0 +1,31 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFramework>netcoreapp2.1</TargetFramework>
+    <AzureFunctionsVersion>v2</AzureFunctionsVersion>
+    <Authors>J Dalton</Authors>
+    <Company />
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Remove="Properties\PublishProfiles\**" />
+    <EmbeddedResource Remove="Properties\PublishProfiles\**" />
+    <None Remove="Properties\PublishProfiles\**" />
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="Microsoft.Extensions.Caching.Memory" Version="2.2.0" />
+    <PackageReference Include="Microsoft.NET.Sdk.Functions" Version="1.0.24" />
+    <PackageReference Include="SpotifyAPI.Web" Version="3.1.1" />
+    <PackageReference Include="SpotifyAPI.Web.Auth" Version="3.1.1" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Update="host.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="local.settings.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <CopyToPublishDirectory>Never</CopyToPublishDirectory>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Properties\" />
+  </ItemGroup>
+</Project>
