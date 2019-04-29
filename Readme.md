@@ -34,12 +34,12 @@ This project contains code to reproduce the following components:
 
 ## Spotify
 I've created a single Spotify playlist for my all my home automation events imaginatively called `Home Automation`.  Here I've added each track I want to play for any sensor around the home.
-![Spotify playlist](https://github.com/daltskin/HomeAutomation/blob/master/Documentation/spotifyplaylist.png)
+![Spotify playlist](https://github.com/daltskin/ST-HomeAutomation/blob/master/Documentation/spotifyplaylist.png)
 
 ## Spotify Developer Dashboard
 Since we're automating Spotify via it's API, we need to create an application within the Spotify Developer Dashboard - this will provision you both a `Client ID` and a `Client Secret`.  You'll need both these values for the next stage.
 
-![Spotify client details](https://github.com/daltskin/HomeAutomation/blob/master/Documentation/spotifydeveloperportal.png)
+![Spotify client details](https://github.com/daltskin/ST-HomeAutomation/blob/master/Documentation/spotifydeveloperportal.png)
 
 ## Azure Function - AFSpotifyTrigger
 The bulk of the work is done within this Azure Function, which is invoked from an HTTP call from the SmartThings SmartApp you will deploy later.  The 2.0 Azure Function automates Spotify using [Jonas Dellinger's SpotifyAPI-NET library](https://github.com/JohnnyCrazy/SpotifyAPI-NET) to do varies tasks such as interogating the user's Spotify devices and current playback track.  The Spotify API requires an OAuth access token to invoke it, an access token only lasts 60 minutes.  This Azure Function therefore uses a refresh token stored within KeyVault to generate a new access token - this in turn gets cached.
@@ -106,7 +106,7 @@ Use the AFSpotifyTrigger.groovy code to deploy a My SmartApps within the [SmartT
 * Add the Azure Function URL endpoint (deployed above) to the `FunctionUri` value field
 * Add your Azure Function secret to the `Secret` value field
 
-![SmartApp](https://github.com/daltskin/HomeAutomation/blob/master/Documentation/smartapp.png)
+![SmartApp](https://github.com/daltskin/ST-HomeAutomation/blob/master/Documentation/smartapp.png)
 
 Now on your mobile device you need to install the new AFSpotifyTrigger application into your Automations.  Once you do this you can configure which sensors that will trigger the Azure Function:
 
