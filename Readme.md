@@ -137,7 +137,7 @@ Here you can set the Spotify device and music playback settings
 * Freezer Duration - the duration to play the music
 * Freezer Seek Position - the starting position to play the track back from
 
-## SmartThings Device Hanlder - AFSpotifyTrigger
+## SmartThings Device Handler - AFSpotifyTrigger
 I've also included a device handler, so that you can setup a virtual button.  Using this you can then create a virtual device button - which whenever you switch on will play any music you like :)
 
 # Nest
