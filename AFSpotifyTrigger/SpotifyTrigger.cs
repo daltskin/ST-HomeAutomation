@@ -36,9 +36,6 @@ namespace HomeAutomation
             string redirect_url = Environment.GetEnvironmentVariable("RedirectURI", EnvironmentVariableTarget.Process);
             string refreshToken = Environment.GetEnvironmentVariable("RefreshToken");
 
-            var s = JsonConvert.SerializeObject(new SmartThings());
-            log.LogInformation(s);
-
             string requestBody = await new StreamReader(req.Body).ReadToEndAsync();
             var st = JsonConvert.DeserializeObject<SmartThings>(requestBody);
 
@@ -147,15 +144,13 @@ namespace HomeAutomation
             memoryCache.TryGetValue("PreviousDevice", out Device previousDevice);
             memoryCache.TryGetValue("TrackOffset", out int? trackOffset);
             memoryCache.TryGetValue("PreviousVolume", out int? previousVolume);
-
-            ErrorResponse spotifyResponse = null;
             if (previousDevice != null && previousContext != null)
             {
                 string spotifyUri = previousContext.Context == null && previousContext.CurrentlyPlayingType == TrackType.Track
                     ? previousContext.Item.Album.Uri
                     : previousContext.Context.Uri;
 
-                spotifyResponse = trackOffset != null
+                ErrorResponse spotifyResponse = trackOffset != null
                     ? await api.ResumePlaybackAsync(previousDevice.Id, contextUri: spotifyUri, offset: trackOffset, positionMs: previousContext.ProgressMs)
                     : await api.ResumePlaybackAsync(previousDevice.Id, contextUri: spotifyUri, offset: "", positionMs: previousContext.ProgressMs);
 
@@ -172,7 +167,7 @@ namespace HomeAutomation
 
                 if (previousVolume != null)
                 {
-                    previousDevice.VolumePercent = previousVolume.Value;
+                    await api.SetVolumeAsync(previousVolume.Value);
                 }
             }
             return true;
@@ -197,7 +192,7 @@ namespace HomeAutomation
                         {
                             // Try and find the current track position in the current playlist
                             string playlistId = t.Context.Uri.Remove(0, t.Context.Uri.LastIndexOf(':') + 1);
-                            var playlistTracks = await api.GetPlaylistTracksAsync(profile.Id, playlistId, "", 100, 0);
+                            var playlistTracks = await api.GetPlaylistTracksAsync(playlistId);
                             for (int i = 0; i < playlistTracks?.Items?.Count; i++)
                             {
                                 if (playlistTracks.Items[i].Track.Id == t.Item.Id)
